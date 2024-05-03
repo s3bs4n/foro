@@ -94,17 +94,6 @@ public class c_topic_controllers {
 	}    
     
 
-
-
-
-
-
-
-
-
-
-
-
     // @PutMapping("/topic/{id_topico}")
     // public c_topic actualizarTopic(@PathVariable int id_topico, @RequestBody c_topic topicoActualizado) { 
     
@@ -130,42 +119,11 @@ public class c_topic_controllers {
     //     respuesta.put("id", String.valueOf(topicExistente.getId()));
     //     return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200));
     // }
-    
-
-
 
     @PutMapping("/topic/{id_topico}")
     public c_topic actualizarTopic(@PathVariable int id_topico, @RequestBody c_topic topicoActualizado) {
         return serv_topic.actualizarTopic(id_topico, topicoActualizado);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-    // @DeleteMapping("/topic/{id_topico}")
-	// public ResponseEntity<Object> deleteTopic( @PathVariable int id_topico ){ 
-    //     Map<String, String> respuesta = new HashMap<String, String>();
-        
-    //     Optional<c_topic> Topico = repo_topic.findById(id_topico);
-        
-    //     if(Topico.isEmpty()){
-    //         respuesta.put("Mensaje", "Id del Tópico no existe");
-    //         return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400));
-    //     }
-        
-    //     repo_topic.delete(Topico.get()); 
-        
-    //     respuesta.put("mensaje", "Tópico borrado con ID : " + String.valueOf( id_topico ) );
-    //     return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200)); 
-	// }        
 
     @DeleteMapping("/topic/{id_topico}")
 	public ResponseEntity<Object> deleteTopic(@PathVariable int id_topico ){ 
@@ -187,11 +145,11 @@ public class c_topic_controllers {
     
 
     
-    
     // RESPUESTA
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     
     @GetMapping("/respuesta/{id_topico}/{id_respuesta}")
     public ResponseEntity<Object> obtenerRespuesta(@PathVariable int id_topico,
