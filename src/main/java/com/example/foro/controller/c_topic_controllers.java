@@ -78,10 +78,6 @@ public class c_topic_controllers {
         return new ResponseEntity<>(topic, HttpStatus.OK); //devuelve la respuesta http con el topico encontrado
     }
 
-
-
-
-
 	@PostMapping("/topic")
 	public ResponseEntity<Object> ingresoTopic( @RequestBody c_topic topico ){ //se crea el metodo ingresoTopic, usa el formato de c_topic 
         Map<String, String> respuesta = new HashMap<String, String>(); // Se está creando una nueva instancia de Hashmap y se guarda en respuesta
@@ -90,7 +86,7 @@ public class c_topic_controllers {
             return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400)); //devuelve la respuesta HTTP con la variable respuesta
         }
 
-        repo_topic.save(topico); // utiliza el repositorio para guardar el topico creado
+        serv_topic.ingresoTopic(topico); // utiliza el repositorio para guardar el topico creado
         respuesta.put("topic", topico.getMensaje()); // agrega el mensade del topico al mapa
         respuesta.put("id", String.valueOf(topico.getId())); // agrega el ID del topico al mapa 
         return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200)); //devuelve el mapa RESPUESTA con un 200
@@ -108,33 +104,40 @@ public class c_topic_controllers {
 
 
 
+
+    // @PutMapping("/topic/{id_topico}")
+    // public c_topic actualizarTopic(@PathVariable int id_topico, @RequestBody c_topic topicoActualizado) { 
     
+    //     Map<String, String> respuesta = new HashMap<String, String>();
+    //     Optional<c_topic> topicOpt = serv_topic.actualizarTopic(id_topico, topicoActualizado); 
+    
+    //     if (!topicOpt.isPresent()) {
+    //         respuesta.put("mensaje", "El topico con ID " + id_topico + " no existe");
+    //         return new c_topic(respuesta, HttpStatus.valueOf(404));
+    //     }
+    
+    //     c_topic topicExistente = topicOpt.get();
+    //     if (topicoActualizado.getMensaje() == null || topicoActualizado.getMensaje().trim().isEmpty()) {
+    //         respuesta.put("mensaje", "Ingrese Mensaje");
+    //         return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400));
+    //     }
+    
+    //     topicExistente.setMensaje(topicoActualizado.getMensaje());
+    //     serv_topic.actualizarTopic(topicExistente);
+    
+    //     respuesta.put("mensaje", "Topico actualizado exitosamente");
+    //     respuesta.put("topic", topicExistente.getMensaje());
+    //     respuesta.put("id", String.valueOf(topicExistente.getId()));
+    //     return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200));
+    // }
+    
+
+
+
     @PutMapping("/topic/{id_topico}")
-    public ResponseEntity<Object> actualizarTopic(@PathVariable int id_topico, @RequestBody c_topic topicoActualizado) { 
-    
-        Map<String, String> respuesta = new HashMap<String, String>();
-        Optional<c_topic> topicOpt = repo_topic.findById(id_topico); 
-    
-        if (!topicOpt.isPresent()) {
-            respuesta.put("mensaje", "El topico con ID " + id_topico + " no existe");
-            return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(404));
-        }
-    
-        c_topic topicExistente = topicOpt.get();
-        if (topicoActualizado.getMensaje() == null || topicoActualizado.getMensaje().trim().isEmpty()) {
-            respuesta.put("mensaje", "Ingrese Mensaje");
-            return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400));
-        }
-    
-        topicExistente.setMensaje(topicoActualizado.getMensaje());
-        repo_topic.save(topicExistente);
-    
-        respuesta.put("mensaje", "Topico actualizado exitosamente");
-        respuesta.put("topic", topicExistente.getMensaje());
-        respuesta.put("id", String.valueOf(topicExistente.getId()));
-        return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200));
+    public c_topic actualizarTopic(@PathVariable int id_topico, @RequestBody c_topic topicoActualizado) {
+        return serv_topic.actualizarTopic(id_topico, topicoActualizado);
     }
-    
 
 
 
@@ -147,23 +150,42 @@ public class c_topic_controllers {
 
 
 
+    // @DeleteMapping("/topic/{id_topico}")
+	// public ResponseEntity<Object> deleteTopic( @PathVariable int id_topico ){ 
+    //     Map<String, String> respuesta = new HashMap<String, String>();
+        
+    //     Optional<c_topic> Topico = repo_topic.findById(id_topico);
+        
+    //     if(Topico.isEmpty()){
+    //         respuesta.put("Mensaje", "Id del Tópico no existe");
+    //         return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400));
+    //     }
+        
+    //     repo_topic.delete(Topico.get()); 
+        
+    //     respuesta.put("mensaje", "Tópico borrado con ID : " + String.valueOf( id_topico ) );
+    //     return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200)); 
+	// }        
 
     @DeleteMapping("/topic/{id_topico}")
-	public ResponseEntity<Object> deleteTopic( @PathVariable int id_topico ){ 
+	public ResponseEntity<Object> deleteTopic(@PathVariable int id_topico ){ 
+
         Map<String, String> respuesta = new HashMap<String, String>();
-        
-        Optional<c_topic> Topico = repo_topic.findById(id_topico);
+        Optional<c_topic> Topico = serv_topic.getTopicByID(id_topico);
         
         if(Topico.isEmpty()){
             respuesta.put("Mensaje", "Id del Tópico no existe");
             return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400));
         }
         
-        repo_topic.delete(Topico.get()); 
+        serv_topic.deleteTopic(id_topico); 
+        // serv_topic.deleteTopic(Topico.get()); 
         
         respuesta.put("mensaje", "Tópico borrado con ID : " + String.valueOf( id_topico ) );
         return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200)); 
 	}        
+    
+
     
     
     // RESPUESTA
