@@ -67,7 +67,7 @@ public class c_topic_controllers {
 
     @GetMapping("/topic/{id_topico}")
     public ResponseEntity<Object> getTopicByID(@PathVariable int id_topico) { // crea el metodo getTopicbyID, usa el ID como parametro
-        Optional<c_topic> topicOptional = repo_topic.findById(id_topico); // se intenta buscar un topico por su ID
+        Optional<c_topic> topicOptional = serv_topic.getTopicByID(id_topico); // se intenta buscar un topico por su ID
         if (!topicOptional.isPresent()) { //verifica si el topico no se encontró
             Map<String, String> respuesta = new HashMap<>(); //se configura la estructura del JSON, la variable y su valor, es lo que hace el Hashmap
             respuesta.put("mensaje", "El tema con el ID " + id_topico + " no fue encontrado");
@@ -77,6 +77,10 @@ public class c_topic_controllers {
         c_topic topic = topicOptional.get(); //carga la clase topico
         return new ResponseEntity<>(topic, HttpStatus.OK); //devuelve la respuesta http con el topico encontrado
     }
+
+
+
+
 
 	@PostMapping("/topic")
 	public ResponseEntity<Object> ingresoTopic( @RequestBody c_topic topico ){ //se crea el metodo ingresoTopic, usa el formato de c_topic 
@@ -92,6 +96,18 @@ public class c_topic_controllers {
         return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200)); //devuelve el mapa RESPUESTA con un 200
 		
 	}    
+    
+
+
+
+
+
+
+
+
+
+
+
     
     @PutMapping("/topic/{id_topico}")
     public ResponseEntity<Object> actualizarTopic(@PathVariable int id_topico, @RequestBody c_topic topicoActualizado) { 
@@ -119,6 +135,19 @@ public class c_topic_controllers {
         return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200));
     }
     
+
+
+
+
+
+
+
+
+
+
+
+
+
     @DeleteMapping("/topic/{id_topico}")
 	public ResponseEntity<Object> deleteTopic( @PathVariable int id_topico ){ 
         Map<String, String> respuesta = new HashMap<String, String>();

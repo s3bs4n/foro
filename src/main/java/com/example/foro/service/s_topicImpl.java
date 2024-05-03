@@ -21,12 +21,12 @@ public class s_topicImpl implements s_topic{
 
     @Override
     public Optional<c_topic> getTopicByID(int id_topico) {
-        return repo_topic.findById(id);
+        return repo_topic.findById(id_topico);
     }
     
     @Override
     public c_topic ingresoTopic(c_topic topico){
-        return repo_topic.save(student);
+        return repo_topic.save(topico);
     }
 
     @Override
