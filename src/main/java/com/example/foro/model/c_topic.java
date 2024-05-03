@@ -2,6 +2,8 @@ package com.example.foro.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="topic") //nombre tabla
 
-public class c_topic {
+public class c_topic extends RepresentationModel<c_topic>{
     
     @Id //marca una clave primaria
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,4 +46,6 @@ public class c_topic {
         }
         return 0;
     }
+
+
 }

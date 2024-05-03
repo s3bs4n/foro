@@ -1,5 +1,7 @@
 package com.example.foro.model;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name="respuestas")
 
-public class c_respuestas {
+public class c_respuestas extends RepresentationModel<c_respuestas>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

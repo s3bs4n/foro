@@ -5,38 +5,64 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.hibernate.validator.internal.util.logging.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.foro.model.c_respuestas;
 import com.example.foro.model.c_topic;
 import com.example.foro.repository.r_respuestas;
 import com.example.foro.repository.r_topic;
+import com.example.foro.service.s_topic;
 
 @RestController //para manejar solicitudes HTTP
+// @RequestMapping("/topic")
 public class c_topic_controllers {
     
-    @Autowired // como que vinvula o carga el repositorio en la clase, r_topic es el repositorio, se guarda en la variable repo_topic
-    private r_topic repo_topic; // r_topic es la clase principal
+    // @Autowired // como que vinvula o carga el repositorio en la clase, r_topic es el repositorio, se guarda en la variable repo_topic
+    // private r_topic repo_topic; // r_topic es la clase principal
 
     @Autowired
     private r_respuestas repo_respuestas;
+//
+    // private static final Logger log = LoggerFactory.getLogger(c_topic_controllers.class);
+
+    @Autowired
+    private s_topic serv_topic;
     
 // TOPICO
 
     @GetMapping("/topic") //se defite el metodo
-    public List<c_topic> getTopic(){ //crea un procedimiento llamado getTopic, que va a devolver una lista de objetos "c_topic"
-        List<c_topic> allTopic = repo_topic.findAll(); // todo lo que es repositorio
-        return allTopic; // devuelve todos los topicos de la BDD
+    public CollectionModel<EntityModel<c_topic>> getTopic(){ //crea un procedimiento llamado getTopic, que va a devolver una lista de objetos "c_topic"
+        List<c_topic> allTopic = serv_topic.getTopic(); // todo lo que es repositorio
+        // log.info("GET /publicaciones");
+        // log.info("Retornando todas las publicaciones");
+        List<EntityModel<c_topic>> topicsResources = allTopic.stream()
+            .map( topic -> EntityModel.of(topic,
+                WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getTopicByID((int) topic.getId())).withSelfRel()
+            ))
+            .collect(Collectors.toList());
+
+        WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getTopic());
+        CollectionModel<EntityModel<c_topic>> resources = CollectionModel.of(topicsResources, linkTo.withRel("topics"));
+
+        return resources; // devuelve todos los topicos de la BDD
     }
 
     @GetMapping("/topic/{id_topico}")
