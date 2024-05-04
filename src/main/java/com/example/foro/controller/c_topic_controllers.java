@@ -151,129 +151,129 @@ public class c_topic_controllers {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     
-    @GetMapping("/respuesta/{id_topico}/{id_respuesta}")
-    public ResponseEntity<Object> obtenerRespuesta(@PathVariable int id_topico,
-                                                    @PathVariable int id_respuesta) {
-        Map<String, Object> respuesta = new HashMap<>();
-        Optional<c_topic> optionalTopico = repo_topic.findById(id_topico);
+//     @GetMapping("/respuesta/{id_topico}/{id_respuesta}")
+//     public ResponseEntity<Object> obtenerRespuesta(@PathVariable int id_topico,
+//                                                     @PathVariable int id_respuesta) {
+//         Map<String, Object> respuesta = new HashMap<>();
+//         Optional<c_topic> optionalTopico = repo_topic.findById(id_topico);
         
-        if(optionalTopico.isEmpty()) {
-            respuesta.put("Mensaje", "El ID del Tópico no existe");
-            return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
-        }
+//         if(optionalTopico.isEmpty()) {
+//             respuesta.put("Mensaje", "El ID del Tópico no existe");
+//             return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+//         }
     
-        c_topic topico = optionalTopico.get();
-        List<c_respuestas> respuestas = topico.getRespuestas();
+//         c_topic topico = optionalTopico.get();
+//         List<c_respuestas> respuestas = topico.getRespuestas();
     
-        // Buscar la respuesta por su ID
-        Optional<c_respuestas> optionalRespuesta = respuestas.stream()
-                                                            .filter(r -> r.getId() == id_respuesta)
-                                                            .findFirst();
+//         // Buscar la respuesta por su ID
+//         Optional<c_respuestas> optionalRespuesta = respuestas.stream()
+//                                                             .filter(r -> r.getId() == id_respuesta)
+//                                                             .findFirst();
     
-        if(optionalRespuesta.isEmpty()) {
-            respuesta.put("Mensaje", "La respuesta no existe en este tópico");
-            return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
-        }
+//         if(optionalRespuesta.isEmpty()) {
+//             respuesta.put("Mensaje", "La respuesta no existe en este tópico");
+//             return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+//         }
     
-        c_respuestas respuestaExistente = optionalRespuesta.get();
+//         c_respuestas respuestaExistente = optionalRespuesta.get();
         
-        // Agregar la respuesta a la respuesta del servicio
-        respuesta.put("Mensaje", respuestaExistente.getMensaje());
-        respuesta.put("Calificacion", respuestaExistente.getCalificacion());
-        respuesta.put("ID_Tópico", id_topico);
-        respuesta.put("ID_Respuesta", id_respuesta);
+//         // Agregar la respuesta a la respuesta del servicio
+//         respuesta.put("Mensaje", respuestaExistente.getMensaje());
+//         respuesta.put("Calificacion", respuestaExistente.getCalificacion());
+//         respuesta.put("ID_Tópico", id_topico);
+//         respuesta.put("ID_Respuesta", id_respuesta);
     
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
+//         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+//     }
     
-    @PostMapping("/respuesta/{id_topico}")
-    public ResponseEntity<Object> ingresoRespuesta(@RequestBody c_respuestas comentario, @PathVariable int id_topico) {
-        Map<String, String> respuesta = new HashMap<String, String>(); 
-        Optional<c_topic> Topico = repo_topic.findById(id_topico); 
-        if(Topico.isEmpty()){
-            respuesta.put("Mensaje", "Id del Tópico no existe");
-            return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400)); 
-        }
+//     @PostMapping("/respuesta/{id_topico}")
+//     public ResponseEntity<Object> ingresoRespuesta(@RequestBody c_respuestas comentario, @PathVariable int id_topico) {
+//         Map<String, String> respuesta = new HashMap<String, String>(); 
+//         Optional<c_topic> Topico = repo_topic.findById(id_topico); 
+//         if(Topico.isEmpty()){
+//             respuesta.put("Mensaje", "Id del Tópico no existe");
+//             return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400)); 
+//         }
 
-        if(comentario.getMensaje()==null || comentario.getMensaje().trim().length() == 0){
-            respuesta.put("Mensaje", "Ingrese Respuesta");
-            return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400));            
-        }
+//         if(comentario.getMensaje()==null || comentario.getMensaje().trim().length() == 0){
+//             respuesta.put("Mensaje", "Ingrese Respuesta");
+//             return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400));            
+//         }
 
-        if(comentario.getCalificacion() <=0 || comentario.getCalificacion()>7){
-            respuesta.put("Mensaje", "Las Calificaciones deben ser entre 1 a 7");
-            return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400));                        
-        }
+//         if(comentario.getCalificacion() <=0 || comentario.getCalificacion()>7){
+//             respuesta.put("Mensaje", "Las Calificaciones deben ser entre 1 a 7");
+//             return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400));                        
+//         }
 
-        Topico.get().getRespuestas().add(comentario);
-        repo_topic.save(Topico.get());
+//         Topico.get().getRespuestas().add(comentario);
+//         repo_topic.save(Topico.get());
         
-        respuesta.put("respuesta", comentario.getMensaje());
-        respuesta.put("calificacion", String.valueOf(comentario.getCalificacion()));
-        return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200));
-    }
+//         respuesta.put("respuesta", comentario.getMensaje());
+//         respuesta.put("calificacion", String.valueOf(comentario.getCalificacion()));
+//         return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200));
+//     }
 
-    @PutMapping("/respuesta/{id_topico}/{id_respuesta}")
-    public ResponseEntity<Object> actualizarRespuesta(@RequestBody c_respuestas comentario, 
-                                                    @PathVariable int id_topico,
-                                                    @PathVariable int id_respuesta) {
-        Map<String, String> respuesta = new HashMap<>();
-        Optional<c_topic> optionalTopico = repo_topic.findById(id_topico);
+//     @PutMapping("/respuesta/{id_topico}/{id_respuesta}")
+//     public ResponseEntity<Object> actualizarRespuesta(@RequestBody c_respuestas comentario, 
+//                                                     @PathVariable int id_topico,
+//                                                     @PathVariable int id_respuesta) {
+//         Map<String, String> respuesta = new HashMap<>();
+//         Optional<c_topic> optionalTopico = repo_topic.findById(id_topico);
         
-        if(optionalTopico.isEmpty()) {
-            respuesta.put("Mensaje", "El ID del Tópico no existe");
-            return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
-        }
+//         if(optionalTopico.isEmpty()) {
+//             respuesta.put("Mensaje", "El ID del Tópico no existe");
+//             return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+//         }
 
-        c_topic topico = optionalTopico.get();
-        List<c_respuestas> respuestas = topico.getRespuestas();
+//         c_topic topico = optionalTopico.get();
+//         List<c_respuestas> respuestas = topico.getRespuestas();
 
-        // Buscar la respuesta a actualizar por su ID
-        Optional<c_respuestas> optionalRespuesta = respuestas.stream()
-                                                            .filter(r -> r.getId() == id_respuesta)
-                                                            .findFirst();
+//         // Buscar la respuesta a actualizar por su ID
+//         Optional<c_respuestas> optionalRespuesta = respuestas.stream()
+//                                                             .filter(r -> r.getId() == id_respuesta)
+//                                                             .findFirst();
 
-        if(optionalRespuesta.isEmpty()) {
-            respuesta.put("Mensaje", "La respuesta a actualizar no existe en este tópico");
-            return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
-        }
+//         if(optionalRespuesta.isEmpty()) {
+//             respuesta.put("Mensaje", "La respuesta a actualizar no existe en este tópico");
+//             return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+//         }
 
-        c_respuestas respuestaExistente = optionalRespuesta.get();
+//         c_respuestas respuestaExistente = optionalRespuesta.get();
         
-        // Actualizar los campos de la respuesta
-        if(comentario.getMensaje() != null && comentario.getMensaje().trim().length() > 0) {
-            respuestaExistente.setMensaje(comentario.getMensaje());
-        }
+//         // Actualizar los campos de la respuesta
+//         if(comentario.getMensaje() != null && comentario.getMensaje().trim().length() > 0) {
+//             respuestaExistente.setMensaje(comentario.getMensaje());
+//         }
 
-        if(comentario.getCalificacion() > 0 && comentario.getCalificacion() <= 7) {
-            respuestaExistente.setCalificacion(comentario.getCalificacion());
-        } else {
-            respuesta.put("Mensaje", "Las calificaciones deben estar entre 1 y 7");
-            return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
-        }
+//         if(comentario.getCalificacion() > 0 && comentario.getCalificacion() <= 7) {
+//             respuestaExistente.setCalificacion(comentario.getCalificacion());
+//         } else {
+//             respuesta.put("Mensaje", "Las calificaciones deben estar entre 1 y 7");
+//             return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+//         }
 
-        // Guardar los cambios en la base de datos
-        repo_topic.save(topico);
+//         // Guardar los cambios en la base de datos
+//         repo_topic.save(topico);
 
-        respuesta.put("Mensaje", "Respuesta actualizada correctamente");
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
+//         respuesta.put("Mensaje", "Respuesta actualizada correctamente");
+//         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+//     }
 
-    @DeleteMapping("/respuesta/{id_respuesta}")
-	public ResponseEntity<Object> deleteRespuesta( @PathVariable int id_respuesta ){ 
-        Map<String, String> respuesta = new HashMap<String, String>();
+//     @DeleteMapping("/respuesta/{id_respuesta}")
+// 	public ResponseEntity<Object> deleteRespuesta( @PathVariable int id_respuesta ){ 
+//         Map<String, String> respuesta = new HashMap<String, String>();
 
-        Optional<c_respuestas> Respuesta = repo_respuestas.findById(id_respuesta);
+//         Optional<c_respuestas> Respuesta = repo_respuestas.findById(id_respuesta);
 
-        if(Respuesta.isEmpty()){
-            respuesta.put("Mensaje", "Id del Respuesta no existe");
-            return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400));
-        }
+//         if(Respuesta.isEmpty()){
+//             respuesta.put("Mensaje", "Id del Respuesta no existe");
+//             return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(400));
+//         }
 
-        repo_respuestas.delete( Respuesta.get() );
+//         repo_respuestas.delete( Respuesta.get() );
 
-        respuesta.put("mensaje", "Respuesta borrada con ID : " + String.valueOf( id_respuesta ) );
-        return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200));
-	}            
+//         respuesta.put("mensaje", "Respuesta borrada con ID : " + String.valueOf( id_respuesta ) );
+//         return new ResponseEntity<Object>(respuesta, HttpStatus.valueOf(200));
+// 	}            
 
 }
