@@ -31,7 +31,7 @@ import com.example.foro.repository.r_respuestas;
 import com.example.foro.repository.r_topic;
 import com.example.foro.service.s_topic;
 
-@RestController //para manejar solicitudes HTTP
+@RestController //para manejar solicitudess HTTP
 // @RequestMapping("/topic")
 public class c_topic_controllers {
     

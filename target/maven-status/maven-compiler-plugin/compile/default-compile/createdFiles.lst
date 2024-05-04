@@ -1,0 +1,9 @@
+com\example\foro\getMapping.class
+com\example\foro\repository\r_topic.class
+com\example\foro\model\c_topic.class
+com\example\foro\controller\c_topic_controllers.class
+com\example\foro\service\s_topic.class
+com\example\foro\model\c_respuestas.class
+com\example\foro\service\s_topicImpl.class
+com\example\foro\ForoApplication.class
+com\example\foro\repository\r_respuestas.class
